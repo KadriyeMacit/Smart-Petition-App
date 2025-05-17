@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548944542997",
+    "project_id": "smart-petition-app",
+    "storage_bucket": "smart-petition-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548944542997:android:bf6b61b6c3b3cae42ebd1c",
+        "android_client_info": {
+          "package_name": "com.example.smart_petition_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqenaNo2Vp8A6kl3YmysEPxT0BoqC-tAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

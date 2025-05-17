@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_petition_app/app_colors.dart';
 import 'package:smart_petition_app/cubit/petition_cubit.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_petition_app/view/petition_screen.dart';
@@ -29,8 +30,8 @@ class PetitionApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         textTheme: GoogleFonts.poppinsTextTheme(),
-        colorSchemeSeed: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.grey[50],
+        colorSchemeSeed: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.background,
       ),
       home: BlocProvider(
         create: (_) => PetitionCubit(),

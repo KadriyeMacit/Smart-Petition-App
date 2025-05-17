@@ -28,19 +28,28 @@ class PetitionCubit extends Cubit<PetitionState> {
     emit(PetitionLoading());
 
     final now = DateFormat('dd.MM.yyyy').format(DateTime.now());
-    final output = '''
+
+    final prompt = '''
+Kullanıcı aşağıdaki konuda belediyeye iletmek üzere resmi bir dilekçe yazmak istiyor.
+
+Konu: $topic
+Açıklama: $details
+
+Lütfen Türkçe, resmi ve kısa bir dilekçe metni oluştur. Hitap şekliyle başlasın ve sonunda saygı ifadeleri, tarih ve iletişim bilgileri bulunsun.
+''';
+
+    try {
+      final content = [Content.text(prompt)];
+      final response = await model.generateContent(content);
+      final body = response.text ?? '';
+
+      final fullPetition = '''
 Şehitkamil Belediyesi
 Şehitkamil Belediye Başkanlığına
 
 Sanayi Mahallesi 60725 Nolu Cad. No:34
 
-Mahallemizde $details nedeniyle aşağıdaki dilekçeyi sunuyoruz:
-
-Sayın Yetkili,
-
-$topic ile ilgili olarak yaşanan sorunlardan dolayı mahalle sakinleri olarak mağduriyet yaşamaktayız. Bu durumun çözülmesi adına gerekli işlemlerin yapılmasını arz ederiz.
-
-Gereğini arz ederiz.
+$body
 
 Tarih: $now
 
@@ -50,13 +59,17 @@ Telefon Numaranız: $phone
 İmza:
 ''';
 
-    emit(PetitionGenerated(output));
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => PetitionResultScreen(petitionText: output),
-      ),
-    );
+      emit(PetitionGenerated(fullPetition));
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PetitionResultScreen(petitionText: fullPetition),
+        ),
+      );
+    } catch (e) {
+      emit(PetitionGenerated('Hata oluştu: $e'));
+    }
   }
 
   void exportPDF(String text) async {

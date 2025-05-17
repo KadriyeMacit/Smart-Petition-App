@@ -35,7 +35,7 @@ class PetitionApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (_) => PetitionCubit(),
-        child: const PetitionScreen(),
+        child: PetitionScreen(),
       ),
     );
   }

@@ -27,6 +27,26 @@ class PetitionCubit extends Cubit<PetitionState> {
   }) async {
     emit(PetitionLoading());
 
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (context) => const Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text(
+                  'Dilekçe oluşturuluyor...',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+    );
+
     final now = DateFormat('dd.MM.yyyy').format(DateTime.now());
 
     final prompt = '''
@@ -61,14 +81,28 @@ Telefon Numaranız: $phone
 
       emit(PetitionGenerated(fullPetition));
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => PetitionResultScreen(petitionText: fullPetition),
-        ),
-      );
+      if (context.mounted) {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PetitionResultScreen(petitionText: fullPetition),
+          ),
+        );
+      }
     } catch (e) {
-      emit(PetitionGenerated('Hata oluştu: $e'));
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Dilekçe oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      emit(PetitionInitial());
     }
   }
 

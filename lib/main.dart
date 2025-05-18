@@ -28,18 +28,18 @@ class PetitionApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Smart Petition',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        textTheme: GoogleFonts.poppinsTextTheme(),
-        colorSchemeSeed: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.background,
-      ),
-      home: BlocProvider(
-        create: (_) => PetitionCubit(),
-        child: PetitionScreen(),
+    return BlocProvider(
+      create: (_) => PetitionCubit(),
+      child: MaterialApp(
+        title: 'Smart Petition',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          colorSchemeSeed: AppColors.primary,
+          scaffoldBackgroundColor: AppColors.background,
+        ),
+        home: PetitionScreen(),
       ),
     );
   }

@@ -50,12 +50,14 @@ class PetitionCubit extends Cubit<PetitionState> {
     final now = DateFormat('dd.MM.yyyy').format(DateTime.now());
 
     final prompt = '''
-Kullanıcı aşağıdaki konuda belediyeye iletmek üzere resmi bir dilekçe yazmak istiyor.
+Aşağıdaki bilgileri kullanarak resmi bir dilekçe oluştur:
+- Konu: $topic
+- Açıklama: $details
+- Ad Soyad: $fullName
+- Adres: $address
+- Telefon: $phone (isteğe bağlı)
 
-Konu: $topic
-Açıklama: $details
-
-Lütfen Türkçe, resmi ve kısa bir dilekçe metni oluştur. Hitap şekliyle başlasın ve sonunda saygı ifadeleri, tarih ve iletişim bilgileri bulunsun.
+Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve kullanıcıya tekrar doldurtulacak alanlar (örneğin [Adınız Soyadınız]) veya **kalın yazım işaretleri** içermemeli. 
 ''';
 
     try {
@@ -69,14 +71,12 @@ Lütfen Türkçe, resmi ve kısa bir dilekçe metni oluştur. Hitap şekliyle ba
 
 Sanayi Mahallesi 60725 Nolu Cad. No:34
 
-$body
-
 Tarih: $now
 
-Adınız Soyadınız: $fullName
-Adresiniz: $address
-Telefon Numaranız: $phone
-İmza:
+Konu: $topic
+
+$body
+
 ''';
 
       emit(PetitionGenerated(fullPetition));

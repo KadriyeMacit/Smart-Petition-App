@@ -6,7 +6,7 @@ import 'package:smart_petition_app/utils/app_colors.dart';
 import 'package:smart_petition_app/cubit/petition_cubit.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_petition_app/firebase_options.dart';
-import 'package:smart_petition_app/view/home_screen.dart';
+import 'package:smart_petition_app/view/petition_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,7 @@ class PetitionApp extends StatelessWidget {
           colorSchemeSeed: AppColors.primary,
           scaffoldBackgroundColor: AppColors.background,
         ),
-        home: HomeScreen(),
+        home: PetitionScreen(),
       ),
     );
   }

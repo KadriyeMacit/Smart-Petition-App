@@ -57,7 +57,7 @@ Aşağıdaki bilgileri kullanarak resmi bir dilekçe oluştur:
 - Adres: $address
 - Telefon: $phone (isteğe bağlı)
 
-Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve kullanıcıya tekrar doldurtulacak alanlar (örneğin [Adınız Soyadınız]) veya **kalın yazım işaretleri** içermemeli. 
+Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve kullanıcıya tekrar doldurtulacak alanlar (örneğin [Adınız Soyadınız]) veya ** gibi işaretler içermemeli. 
 ''';
 
     try {

@@ -15,7 +15,12 @@ class PetitionTopicCubit extends Cubit<PetitionTopicState> {
         await FirebaseFirestore.instance.collection('petitionTopics').get();
     final fetchedTopics =
         snapshot.docs.map((doc) => doc['title'] as String).toList();
-    emit(state.copyWith(topics: [...fetchedTopics, 'Diğer'], isLoading: false));
+
+    if (!fetchedTopics.contains('Diğer')) {
+      fetchedTopics.add('Diğer');
+    }
+
+    emit(state.copyWith(topics: fetchedTopics, isLoading: false));
   }
 
   void updateSelectedTopic(String? topic) {

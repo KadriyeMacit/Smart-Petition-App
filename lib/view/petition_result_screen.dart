@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:smart_petition_app/cubit/petition_cubit.dart';
+import 'package:smart_petition_app/utils/app_colors.dart';
 
 class PetitionResultScreen extends StatelessWidget {
   final String petitionText;
@@ -13,46 +14,39 @@ class PetitionResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Oluşturulan Dilekçe'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: AppColors.green,
         foregroundColor: Colors.white,
+      ),
+      backgroundColor: AppColors.white,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'pdf',
+            backgroundColor: AppColors.green,
+            foregroundColor: AppColors.white,
+            onPressed:
+                () => context.read<PetitionCubit>().exportPDF(petitionText),
+            child: const Icon(Icons.picture_as_pdf_outlined),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton(
+            heroTag: 'share',
+            backgroundColor: AppColors.green,
+            foregroundColor: AppColors.white,
+            onPressed: () => Share.share(petitionText),
+            child: const Icon(Icons.share_outlined),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  petitionText,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    icon: const Icon(Icons.picture_as_pdf_outlined),
-                    label: const Text('PDF Olarak Kaydet'),
-                    onPressed:
-                        () => context.read<PetitionCubit>().exportPDF(
-                          petitionText,
-                        ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    icon: const Icon(Icons.share_outlined),
-                    label: const Text('Paylaş'),
-                    onPressed: () => Share.share(petitionText),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Text(
+            petitionText,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ),
       ),
     );

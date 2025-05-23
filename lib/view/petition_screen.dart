@@ -147,6 +147,7 @@ class _PetitionForm extends StatelessWidget {
               controller: otherTopicController,
               decoration: InputDecoration(
                 labelText: 'Lütfen konuyu belirtiniz',
+                hintText: 'Konuyu giriniz...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -174,7 +175,7 @@ class _PetitionForm extends StatelessWidget {
   Widget _buildSubmitButton(BuildContext context, PetitionTopicState state) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton.icon(
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.green,
           foregroundColor: AppColors.white,
@@ -197,8 +198,7 @@ class _PetitionForm extends StatelessWidget {
             ),
           );
         },
-        label: const Text('Oluştur'),
-        icon: const Icon(Icons.smart_toy_outlined),
+        child: const Text('Devam Et'),
       ),
     );
   }

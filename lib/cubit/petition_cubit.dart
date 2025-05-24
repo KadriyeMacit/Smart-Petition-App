@@ -23,6 +23,7 @@ class PetitionCubit extends Cubit<PetitionState> {
     required String fullName,
     required String address,
     required String phone,
+    required String tc,
     required BuildContext context,
   }) async {
     emit(PetitionLoading());
@@ -54,6 +55,7 @@ Aşağıdaki bilgileri kullanarak resmi bir dilekçe oluştur:
 - Konu: $topic
 - Açıklama: $details
 - Ad Soyad: $fullName
+- TC Kimlik No: $tc
 - Adres: $address
 - Telefon: $phone (isteğe bağlı)
 

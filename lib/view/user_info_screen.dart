@@ -89,13 +89,25 @@ class _UserInfoForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 TextField(
+                  onChanged: context.read<UserInfoCubit>().updateTc,
+                  decoration: InputDecoration(
+                    labelText: 'TC Kimlik No *',
+                    hintText: 'TC Kimlik Numaranızı giriniz...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+                ),
+                const SizedBox(height: 16),
+                TextField(
                   onChanged: context.read<UserInfoCubit>().updateAddress,
                   maxLines: 4,
                   decoration: InputDecoration(
                     labelText: 'Adres *',
                     alignLabelWithHint: true,
                     hintText: 'Adresinizi giriniz...',
-
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -149,6 +161,7 @@ class _UserInfoSubmitButton extends StatelessWidget {
                           fullName: user.fullName,
                           address: user.address,
                           phone: user.phone,
+                          tc: user.tc,
                           context: context,
                         );
                       }

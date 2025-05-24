@@ -13,7 +13,7 @@ class PetitionResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Oluşturulan Dilekçe'),
+        title: const Text('Dilekçem'),
         backgroundColor: AppColors.green,
         foregroundColor: Colors.white,
       ),

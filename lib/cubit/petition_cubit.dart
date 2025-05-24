@@ -7,6 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:smart_petition_app/cubit/petition_state.dart';
+import 'package:smart_petition_app/utils/app_colors.dart';
 import 'package:smart_petition_app/view/petition_result_screen.dart';
 
 class PetitionCubit extends Cubit<PetitionState> {
@@ -28,7 +29,6 @@ class PetitionCubit extends Cubit<PetitionState> {
   }) async {
     emit(PetitionLoading());
 
-    // Show loading dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -57,9 +57,12 @@ Aşağıdaki bilgileri kullanarak resmi bir dilekçe oluştur:
 - Ad Soyad: $fullName
 - TC Kimlik No: $tc
 - Adres: $address
-- Telefon: $phone (isteğe bağlı)
+- Telefon: $phone 
 
-Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve kullanıcıya tekrar doldurtulacak alanlar (örneğin [Adınız Soyadınız]) veya ** gibi işaretler içermemeli. 
+ Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve kullanıcıya tekrar doldurtulacak alanlar (örneğin [Adınız Soyadınız]) veya ** gibi işaretler içermemeli.
+ Konu ve tarih yazdırma çünkü zaten konu ve tarih yazılıyor. 
+ Kime veya nereye gönderileceği yazdırılmamalı. Dilekçenin sadece gövdesi yazdırılmalı.
+ Metinlerden önce ** yazdırmamalı.
 ''';
 
     try {
@@ -68,8 +71,8 @@ Dilekçe Türkçe, resmi ve kısa olmalı. Hazır çıktıya uygun olmalı ve ku
       final body = response.text ?? '';
 
       final fullPetition = '''
-Şehitkamil Belediyesi
-Şehitkamil Belediye Başkanlığına
+GAZİANTEP ŞEHİTKAMİL BELEDİYESİ
+GAZİANTEP ŞEHİTKAMİL BELEDİYE BAŞKANLIĞINA
 
 Sanayi Mahallesi 60725 Nolu Cad. No:34
 
@@ -96,11 +99,11 @@ $body
       if (context.mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
               'Dilekçe oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.',
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.red,
           ),
         );
       }

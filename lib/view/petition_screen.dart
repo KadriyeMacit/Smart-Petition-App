@@ -83,11 +83,28 @@ class _PetitionForm extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTopicDropdown(context, state),
+                      if (state.topicError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            state.topicError!,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.red),
+                          ),
+                        ),
                       const SizedBox(height: 16),
                       _buildOtherTopicField(context, state),
                       _buildDetailsField(context, state),
+                      if (state.detailsError != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            state.detailsError!,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.red),
+                          ),
+                        ),
                       const SizedBox(height: 24),
-                      //
                     ],
                   ),
                 ),
@@ -131,7 +148,6 @@ class _PetitionForm extends StatelessWidget {
       onChanged: (value) {
         context.read<PetitionTopicCubit>().updateSelectedTopic(value);
       },
-
       decoration: InputDecoration(
         labelText: 'Dilekçe Konusu',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -145,6 +161,12 @@ class _PetitionForm extends StatelessWidget {
           children: [
             TextField(
               controller: otherTopicController,
+              onChanged: (_) {
+                context.read<PetitionTopicCubit>().validateForm(
+                  otherTopic: otherTopicController.text,
+                  details: inputController.text,
+                );
+              },
               decoration: InputDecoration(
                 labelText: 'Lütfen konuyu belirtiniz',
                 hintText: 'Konuyu giriniz...',
@@ -162,6 +184,12 @@ class _PetitionForm extends StatelessWidget {
   Widget _buildDetailsField(BuildContext context, PetitionTopicState state) {
     return TextField(
       controller: inputController,
+      onChanged: (_) {
+        context.read<PetitionTopicCubit>().validateForm(
+          otherTopic: otherTopicController.text,
+          details: inputController.text,
+        );
+      },
       decoration: InputDecoration(
         labelText: 'Kısa Açıklama',
         alignLabelWithHint: true,
@@ -177,27 +205,32 @@ class _PetitionForm extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.green,
+          backgroundColor: state.isValid ? AppColors.green : AppColors.grey,
           foregroundColor: AppColors.white,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
-        onPressed: () {
-          final selected =
-              state.selectedTopic == 'Diğer'
-                  ? otherTopicController.text
-                  : state.selectedTopic ?? '';
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (_) => UserInfoScreen(
-                    topic: selected,
+        onPressed:
+            state.isValid
+                ? () {
+                  context.read<PetitionTopicCubit>().validateAndSubmit(
+                    otherTopic: otherTopicController.text,
                     details: inputController.text,
-                  ),
-            ),
-          );
-        },
+                    onValid: (topic, details) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (_) => UserInfoScreen(
+                                topic: topic,
+                                details: details,
+                              ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                : null,
         child: const Text('Devam Et'),
       ),
     );

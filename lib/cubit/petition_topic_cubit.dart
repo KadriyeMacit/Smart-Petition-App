@@ -5,7 +5,14 @@ import 'package:smart_petition_app/cubit/petition_topic_state.dart';
 class PetitionTopicCubit extends Cubit<PetitionTopicState> {
   PetitionTopicCubit()
     : super(
-        PetitionTopicState(topics: [], selectedTopic: null, isLoading: true),
+        PetitionTopicState(
+          topics: [],
+          selectedTopic: null,
+          isLoading: true,
+          topicError: null,
+          detailsError: null,
+          isValid: false,
+        ),
       ) {
     fetchTopics();
   }
@@ -24,6 +31,48 @@ class PetitionTopicCubit extends Cubit<PetitionTopicState> {
   }
 
   void updateSelectedTopic(String? topic) {
-    emit(state.copyWith(selectedTopic: topic));
+    emit(
+      state.copyWith(selectedTopic: topic, topicError: null, isValid: false),
+    );
+  }
+
+  void validateForm({required String otherTopic, required String details}) {
+    String? topicError;
+    String? detailsError;
+    bool isValid = true;
+
+    if (state.selectedTopic == 'Diğer' && otherTopic.isEmpty) {
+      topicError = 'Lütfen konuyu belirtiniz';
+      isValid = false;
+    }
+
+    if (details.isEmpty) {
+      detailsError = 'Lütfen açıklama giriniz';
+      isValid = false;
+    }
+
+    emit(
+      state.copyWith(
+        topicError: topicError,
+        detailsError: detailsError,
+        isValid: isValid,
+      ),
+    );
+  }
+
+  void validateAndSubmit({
+    required String otherTopic,
+    required String details,
+    required Function(String topic, String details) onValid,
+  }) {
+    validateForm(otherTopic: otherTopic, details: details);
+
+    if (state.isValid) {
+      final selected =
+          state.selectedTopic == 'Diğer'
+              ? otherTopic
+              : state.selectedTopic ?? '';
+      onValid(selected, details);
+    }
   }
 }
